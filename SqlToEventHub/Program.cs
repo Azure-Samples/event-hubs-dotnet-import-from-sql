@@ -42,13 +42,22 @@ namespace WorkerHost
             string serviceBusConnectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ServiceBusConnectionString");
             string hubName = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.EventHubToUse");
 
-            string selectDataQueryTemplate = ReplaceReader(CloudConfigurationManager.GetSetting("DataQuery"), readeName);
+            string dataTableName = CloudConfigurationManager.GetSetting("DataTableName");
+            string offsetKey = CloudConfigurationManager.GetSetting("OffsetKey");
+
+            string selectDataQueryTemplate =
+                ReplaceDataTableName(
+                    ReplaceOffsetKey(ReplaceReader(CloudConfigurationManager.GetSetting("DataQuery"), readeName),
+                        offsetKey), dataTableName);
+
+            string createOffsetTableQuery = CloudConfigurationManager.GetSetting("CreateOffsetTableQuery");
             string selectOffsetQueryTemplate = ReplaceReader(CloudConfigurationManager.GetSetting("OffsetQuery"), readeName);
             string updateOffsetQueryTemplate = ReplaceReader(CloudConfigurationManager.GetSetting("UpdateOffsetQuery"), readeName);
             string insertOffsetQueryTemplate = ReplaceReader(CloudConfigurationManager.GetSetting("InsertOffsetQuery"), readeName);
-            string offsetKey = CloudConfigurationManager.GetSetting("OffsetKey");
 
             SqlTextQuery queryPerformer = new SqlTextQuery(sqlDatabaseConnectionString);
+            queryPerformer.PerformQuery(createOffsetTableQuery);
+
             EventHubClient eventHubClient = EventHubClient.CreateFromConnectionString(serviceBusConnectionString,
                 hubName);
 
@@ -112,6 +121,16 @@ namespace WorkerHost
             EventData eventData = new EventData(memoryStream);
 
             await eventHubClient.SendAsync(eventData);
+        }
+
+        private static string ReplaceDataTableName(string query, string tableName)
+        {
+            return query.Replace("{tableName}", tableName);
+        }
+
+        private static string ReplaceOffsetKey(string query, string offsetKey)
+        {
+            return query.Replace("{offsetKey}", offsetKey);
         }
 
         private static string ReplaceOffset(string query, string offsetValue)
