@@ -4,7 +4,7 @@ platforms: dotnet
 author: spyrossak
 ---
 
-# SQL to Event Hub scenario #
+# SQL to Event Hub scenario
 
 This scenario is pretty rare, and you should be sure that it applies to you before continuing! 
 Generally speaking, if you are using Event Hubs, you are working with streaming data, which you may end up 
@@ -16,9 +16,9 @@ streamed so that they can be visualized or merged with other streaming data. The
 example of how to do this. It is not a supported solution, nor a recommended one, but simply an example to 
 show you how it can be done.
 
-For more information about this sample, see the [Pulling data from SQL into an Azure Event Hub](https://github.com/Azure-Samples/event-hubs-dotnet-import-from-sql/event-hubs-pulling-public-data.md) topic in this repository.
+For more information about this sample, see the [Pulling data from SQL into an Azure Event Hub](https://github.com/Azure-Samples/event-hubs-dotnet-import-from-sql/blob/master/event-hubs-pulling-sql-data.md) topic in this repository.
 
-## Prerequisites ##
+## Prerequisites
 
 * An Azure subscription
 * A version of Visual Studio installed on your desktop
@@ -26,7 +26,7 @@ For more information about this sample, see the [Pulling data from SQL into an A
   * A field in that table that is a unique, growing value - for example the record number 
 * A Service Bus namespace and an Event Hub as the target for the data
 
-## Setup Tasks ##
+## Setup Tasks
 
 Setting up the application once you have an Event Hub and its Connection String involves the following tasks, which will be described in greater detail below.
 
@@ -38,13 +38,13 @@ Setting up the application once you have an Event Hub and its Connection String 
 6. Verify that data is coming in to your Event Hub from the SQL table
 
 
-## Editing App.config ##
+## Editing App.config
 
 All the parameters you need to specify to get this project to run are in the ```<appSettings>``` section of the 
 App.config file. There are two sections, one for the SQL table you will poll for updates, and one for the event hub 
 to which you will send those updates.
 
-### The SQL table information ###
+### The SQL table information
 
 In the ```<appSettings>``` section, enter
 
@@ -82,8 +82,7 @@ Replace ```[row_id]``` with the name of that field in your table. NOTE THIS IS C
 Replace ```10000``` with the interval that you want to use, in milliseconds. The default is 10 seconds. 
 
 
-
-### The Event Hub information ###
+### The Event Hub information
 
 Also in the ```<appSettings>``` section, enter
 
@@ -112,7 +111,7 @@ Replace ```[Service Bus connection string]``` with the whole of the string that 
 portal, starting with "Endpoint" and ending with an "=".
 
 
-## Publishing the application ##
+## Publishing the application
 
 1. In Visual Studio, right-click on 'WorkerRole' in Solution 'SqlToEventHub', and select *Publish*.
 2. In the Publish Azure Application, answer the following questions. 
