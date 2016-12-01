@@ -16,6 +16,8 @@ streamed so that they can be visualized or merged with other streaming data. The
 example of how to do this. It is not a supported solution, nor a recommended one, but simply an example to 
 show you how it can be done.
 
+For more information about this sample, see the [Pulling data from SQL into an Azure Event Hub](https://github.com/Azure-Samples/event-hubs-dotnet-import-from-sql/event-hubs-pulling-public-data.md) topic in this repository.
+
 ## Prerequisites ##
 
 * An Azure subscription
